@@ -80,8 +80,8 @@ function announce(msg) {
 }
 
 world.state.bestScore = readBest();
-// Siapkan adegan latar di layar judul agar langsung tampak menarik sejak frame pertama
-world.jumpToWave(2);
+// Siapkan adegan latar di layar judul agar langsung tampak padat sejak frame pertama
+world.jumpToWave(4);
 world.state.score = 0;
 
 function paintNow() {
@@ -222,7 +222,6 @@ function processInput() {
 
 function stepSimulation() {
   if (screen === SCREEN_TITLE) {
-    // Demo latar belakang otomatis di layar judul; jaga integritas tetap utuh
     world.step(STEP, { brace: false }, true);
     if (world.state.integrity < 3) world.state.integrity = 3;
     world.state.score = 0;
@@ -253,8 +252,8 @@ window.__lumen = {
     const targetWave = Math.max(1, Math.min(MAX_WAVE, Math.floor(Number(n) || 1)));
     screen = SCREEN_PLAY;
     world.jumpToWave(targetWave);
-    if (world.state.score < targetWave * 450) {
-      world.state.score = targetWave * 650;
+    if (world.state.score < targetWave * 600) {
+      world.state.score = targetWave * 950;
       world.state.bestScore = Math.max(world.state.bestScore, world.state.score);
     }
     paintNow();
@@ -269,40 +268,41 @@ window.__lumen = {
   keadaan(nama) {
     const key = String(nama || '').toLowerCase().trim();
     if (key === 'judul' || key === 'title' || key === 'start') {
-      world.jumpToWave(2);
+      world.jumpToWave(4);
       world.state.score = 0;
       screen = SCREEN_TITLE;
     } else if (key === 'main' || key === 'play') {
-      if (world.state.shards.length === 0) world.jumpToWave(world.state.wave || 3);
-      if (world.state.score === 0) world.state.score = 1850;
+      if (world.state.shards.length === 0) world.jumpToWave(world.state.wave || 6);
+      if (world.state.score === 0) world.state.score = 5400;
       screen = SCREEN_PLAY;
     } else if (key === 'naik' || key === 'upgrade') {
-      const w = world.state.wave % 3 === 0 ? world.state.wave : 3;
+      const w = world.state.wave % 3 === 0 ? world.state.wave : 6;
       world.jumpToWave(w);
       world.state.upgradeChoices = rollUpgradeChoices(w, world.state.upgrades);
-      if (world.state.score < 2400) world.state.score = 2450;
+      if (world.state.score < 4800) world.state.score = 5400;
       world.state.bestScore = Math.max(world.state.bestScore, world.state.score);
       screen = SCREEN_UPGRADE;
     } else if (key === 'jeda' || key === 'pause' || key === 'paused') {
-      if (world.state.shards.length === 0) world.jumpToWave(world.state.wave || 4);
-      if (world.state.score < 1200) world.state.score = 3100;
+      if (world.state.shards.length === 0) world.jumpToWave(world.state.wave || 6);
+      if (world.state.score < 3200) world.state.score = 5400;
       world.state.bestScore = Math.max(world.state.bestScore, world.state.score);
       screen = SCREEN_PAUSE;
     } else if (key === 'kalah' || key === 'lose' || key === 'over') {
-      world.jumpToWave(Math.max(5, world.state.wave));
+      world.jumpToWave(Math.max(7, world.state.wave));
       world.state.integrity = 0;
-      world.state.coreFlash = 0.8;
-      world.addParticles(CORE_X, CORE_Y, 26, '#ff5a5f', 200, 5);
-      if (world.state.score < 3800) world.state.score = 4650;
+      world.state.coreFlash = 0.9;
+      world.state.edgeFlash = 0.85;
+      world.addParticles(CORE_X, CORE_Y, 36, '#ff2a55', 230, 6);
+      if (world.state.score < 6400) world.state.score = 7850;
       world.state.bestScore = Math.max(world.state.bestScore, world.state.score);
       screen = SCREEN_LOSE;
     } else if (key === 'menang' || key === 'win') {
       world.jumpToWave(MAX_WAVE);
       world.state.wave = MAX_WAVE;
       world.state.integrity = Math.max(2, world.state.integrity);
-      world.addRing(CORE_X, CORE_Y, 220, '#ffd166', 0.6);
-      world.addParticles(CORE_X, CORE_Y, 28, '#ffd166', 210, 5);
-      if (world.state.score < 12000) world.state.score = 15400;
+      world.addRing(CORE_X, CORE_Y, 240, '#ffd166', 0.6);
+      world.addParticles(CORE_X, CORE_Y, 36, '#ffd166', 230, 6);
+      if (world.state.score < 18000) world.state.score = 24600;
       world.state.bestScore = Math.max(world.state.bestScore, world.state.score);
       if (world.state.upgrades.length === 0) {
         world.state.upgrades = ['Busur Surya', 'Pantulan Pencari', 'Prisma Ganda'];
@@ -332,8 +332,8 @@ window.__lumen = {
 function runShotMode(shotName) {
   audio.matikan();
   if (shotName === 'play') {
-    window.__lumen.keGelombang(4);
-    window.__lumen.skor(3450);
+    window.__lumen.keGelombang(6);
+    window.__lumen.skor(6450);
   } else if (shotName === 'upgrade' || shotName === 'naik') {
     window.__lumen.keadaan('naik');
   } else if (shotName === 'end' || shotName === 'over' || shotName === 'kalah') {

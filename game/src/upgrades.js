@@ -1,5 +1,5 @@
 // Daftar peningkatan (upgrades) yang ditawarkan setiap 3 gelombang.
-// Setiap pilihan memberikan perubahan mekanik yang terasa langsung pada perisai, pantulan, atau stamina.
+// Setiap pilihan memiliki nama, kode ikon vektor, ringkasan, dan satu kalimat efek jelas.
 
 export const UPGRADE_POOL = [
   {
@@ -7,7 +7,7 @@ export const UPGRADE_POOL = [
     nama: 'Busur Surya',
     ikon: '⟪ ◈ ⟫',
     ringkas: '+28° Lebar Perisai',
-    deskripsi: 'Memperlebar lengkung perisai cahaya sehingga mampu menangkis serpihan dari sudut lebih luas.',
+    deskripsi: 'Memperlebar busur perisai cahaya untuk menangkis gerombolan serpihan lebih mudah.',
     apply(mods) {
       mods.shieldArc += 0.48;
     },
@@ -17,7 +17,7 @@ export const UPGRADE_POOL = [
     nama: 'Pantulan Pencari',
     ikon: '✦ ➔ ✦',
     ringkas: 'Pantulan Mengejar & +1 Tembus',
-    deskripsi: 'Serpihan yang terpantul berbelok otomatis mencari serpihan gelap lain dan menembus 1 target ekstra.',
+    deskripsi: 'Serpihan pantul berbelok otomatis mengejar musuh terdekat dan menembus 1 target ekstra.',
     apply(mods) {
       mods.homingStrength += 2.6;
       mods.pierceBonus += 1;
@@ -28,7 +28,7 @@ export const UPGRADE_POOL = [
     nama: 'Nadi Kencana',
     ikon: '⚡ ↻',
     ringkas: '+50% Pulih Stamina & Hemat Spasi',
-    deskripsi: 'Stamina perisai pulih jauh lebih cepat dan menahan perisai (Spasi) lebih hemat energi.',
+    deskripsi: 'Stamina perisai pulih 50% lebih cepat dan menahan Spasi jauh lebih hemat energi.',
     apply(mods) {
       mods.staminaRegen *= 1.5;
       mods.staminaDrain *= 0.72;
@@ -38,8 +38,8 @@ export const UPGRADE_POOL = [
     id: 'prisma_pecah',
     nama: 'Prisma Ganda',
     ikon: '❖ ⑃',
-    ringkas: 'Tembakan Pecahan Cahaya',
-    deskripsi: 'Memantulkan serpihan memercikkan proyektil cahaya tambahan ke arah serpihan gelap terdekat.',
+    ringkas: '+1 Proyektil Cahaya Ekstra',
+    deskripsi: 'Setiap tangkisan perisai menembakkan pecahan tombak cahaya tambahan ke arah musuh.',
     apply(mods) {
       mods.splitCount += 1;
     },
@@ -48,8 +48,8 @@ export const UPGRADE_POOL = [
     id: 'gelombang_kejut',
     nama: 'Denyut Aegis',
     ikon: '◎ 〰',
-    ringkas: 'Spasi Memicu Gelombang Kejut',
-    deskripsi: 'Menekan Spasi melepaskan cincin cahaya yang memperlambat serpihan gelap dan memperbesar pantulan.',
+    ringkas: 'Spasi Memicu Gelombang Lambat',
+    deskripsi: 'Menekan Spasi memancarkan cincin kejut yang memperlambat semua serpihan di sekitar inti.',
     apply(mods) {
       mods.shockwavePower += 1;
       mods.braceArcBonus += 0.25;
@@ -60,7 +60,7 @@ export const UPGRADE_POOL = [
     nama: 'Restorasi Lumen',
     ikon: '♥ +1',
     ringkas: '+1 Integritas Inti & +25% Skor',
-    deskripsi: 'Memulihkan 1 nyawa integritas inti (maks 4) serta menambah perolehan skor setiap pantulan.',
+    deskripsi: 'Memulihkan 1 nyawa integritas inti (maks 4) dan meningkatkan seluruh perolehan skor 25%.',
     apply(mods, state) {
       mods.scoreBonus *= 1.25;
       if (state) {
@@ -78,12 +78,12 @@ export const UPGRADE_POOL = [
 
 export function createDefaultMods() {
   return {
-    shieldArc: 1.18, // ~67.5 derajat dasar
-    braceArcBonus: 0.45,
-    homingStrength: 1.6, // sedikit bantuan arah dasar agar rantai seru sejak gelombang 1
-    pierceBonus: 2, // jumlah tabrakan berantai per serpihan pantul
-    staminaRegen: 28, // per detik
-    staminaDrain: 38, // per detik saat Spasi ditahan
+    shieldArc: 1.32, // ~75 derajat dasar
+    braceArcBonus: 0.52,
+    homingStrength: 2.15,
+    pierceBonus: 2,
+    staminaRegen: 32,
+    staminaDrain: 34,
     splitCount: 0,
     shockwavePower: 0,
     scoreBonus: 1.0,
